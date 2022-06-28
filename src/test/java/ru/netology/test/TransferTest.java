@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TransferTest {
     DataHelper info;
+    int amount = 100;
 
     @BeforeEach
     public void authorize(){
@@ -37,14 +38,15 @@ public class TransferTest {
     public void shouldTransferToFirstCard(){
         DashboardPage dashboardPage = new DashboardPage();
         VerificationPage verificationPage = new VerificationPage();
+        int balanceBeforeFirstCard = dashboardPage.getBalance(0);
+        int balanceBeforeSecondCard = dashboardPage.getBalance(1);
         TransferPage transferPage = new TransferPage();
         transferPage = dashboardPage.transferButton(0);
-        transferPage.transfer(info, 100, 1);
 
-        int actual = dashboardPage.getBalance(0);
-        int expected = 10100;
+        transferPage.transfer(info, amount, 1);
 
-        assertEquals(actual, expected);
+        dashboardPage.assertBalance(0, balanceBeforeFirstCard + amount);
+        dashboardPage.assertBalance(1, balanceBeforeSecondCard - amount);
 
     }
     @Test
@@ -52,12 +54,12 @@ public class TransferTest {
         DashboardPage dashboardPage = new DashboardPage();
         VerificationPage verificationPage = new VerificationPage();
         TransferPage transferPage = new TransferPage();
+        int balanceBeforeFirstCard = dashboardPage.getBalance(0);
+        int balanceBeforeSecondCard = dashboardPage.getBalance(1);
         transferPage = dashboardPage.transferButton(1);
         transferPage.transfer(info, 100, 0);
 
-        int actual = dashboardPage.getBalance(1);
-        int expected = 10100;
-
-        assertEquals(actual, expected);
+        dashboardPage.assertBalance(1, balanceBeforeSecondCard + amount);
+        dashboardPage.assertBalance(0, balanceBeforeFirstCard - amount);
     }
 }
