@@ -16,13 +16,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TransferTest {
     DataHelper info;
-    DashboardPage dashboardPage = new DashboardPage();
-    VerificationPage verificationPage = new VerificationPage();
-    TransferPage transferPage = new TransferPage();
 
     @BeforeEach
     public void authorize(){
+
         open("http://localhost:9999/");
+
+        VerificationPage verificationPage = new VerificationPage();
+
         LoginPage loginPage = new LoginPage();
         info = new DataHelper();
         loginPage.login(info);
@@ -31,9 +32,13 @@ public class TransferTest {
         //dashboardPage = verificationPage.validVerify(info);
     }
 
+
     @Test
     public void shouldTransferToFirstCard(){
-        TransferPage transferPage = dashboardPage.transferButton(0);
+        DashboardPage dashboardPage = new DashboardPage();
+        VerificationPage verificationPage = new VerificationPage();
+        TransferPage transferPage = new TransferPage();
+        transferPage = dashboardPage.transferButton(0);
         transferPage.transfer(info, 100, 1);
 
         int actual = dashboardPage.getBalance(0);
@@ -44,7 +49,10 @@ public class TransferTest {
     }
     @Test
     public void shouldTransferToSecondCard(){
-        TransferPage transferPage = dashboardPage.transferButton(1);
+        DashboardPage dashboardPage = new DashboardPage();
+        VerificationPage verificationPage = new VerificationPage();
+        TransferPage transferPage = new TransferPage();
+        transferPage = dashboardPage.transferButton(1);
         transferPage.transfer(info, 100, 0);
 
         int actual = dashboardPage.getBalance(1);
