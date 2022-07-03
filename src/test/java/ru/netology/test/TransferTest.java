@@ -12,6 +12,7 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static ru.netology.data.DataHelper.getInfo;
 
 
 public class TransferTest {
@@ -41,12 +42,17 @@ public class TransferTest {
         int balanceBeforeFirstCard = dashboardPage.getBalance(0);
         int balanceBeforeSecondCard = dashboardPage.getBalance(1);
         TransferPage transferPage = new TransferPage();
-        transferPage = dashboardPage.transferButton(0);
+        transferPage = dashboardPage.transferButton(0);//какую карту пополняем
 
-        transferPage.transfer(info, amount, 1);
+        transferPage.transfer(info, amount, 1);//с какой карты переводим
 
-        dashboardPage.assertBalance(0, balanceBeforeFirstCard + amount);
-        dashboardPage.assertBalance(1, balanceBeforeSecondCard - amount);
+        int expectedBalanceFirstCard = balanceBeforeFirstCard + amount;
+        int expectedBalanceSecondCard = balanceBeforeSecondCard - amount;
+
+        int actualBalanceFirstCard = dashboardPage.getBalance(0);
+        int actualBalanceSecondCard = dashboardPage.getBalance(1);
+        assertEquals(expectedBalanceFirstCard, actualBalanceFirstCard);
+        assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard);
 
     }
     @Test
@@ -56,10 +62,41 @@ public class TransferTest {
         TransferPage transferPage = new TransferPage();
         int balanceBeforeFirstCard = dashboardPage.getBalance(0);
         int balanceBeforeSecondCard = dashboardPage.getBalance(1);
-        transferPage = dashboardPage.transferButton(1);
-        transferPage.transfer(info, 100, 0);
+        transferPage = dashboardPage.transferButton(1); //какую карту пополняем
+        transferPage.transfer(info, amount, 0); // с какой карты пополняем
 
-        dashboardPage.assertBalance(1, balanceBeforeSecondCard + amount);
-        dashboardPage.assertBalance(0, balanceBeforeFirstCard - amount);
+        int expectedBalanceFirstCard = balanceBeforeFirstCard - amount;
+        int expectedBalanceSecondCard = balanceBeforeSecondCard + amount;
+
+        int actualBalanceFirstCard = dashboardPage.getBalance(0);
+        int actualBalanceSecondCard = dashboardPage.getBalance(1);
+        assertEquals(expectedBalanceFirstCard, actualBalanceFirstCard);
+        assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard);
+
+//        dashboardPage.assertBalance(1, balanceBeforeSecondCard + amount);
+//        dashboardPage.assertBalance(0, balanceBeforeFirstCard - amount);
+    }
+
+    @Test
+    public void shouldTransferToFirstCardIfAmountMoreThanBalance(){
+        DashboardPage dashboardPage = new DashboardPage();
+        VerificationPage verificationPage = new VerificationPage();
+        TransferPage transferPage = new TransferPage();
+        int balanceBeforeFirstCard = dashboardPage.getBalance(0);
+        int balanceBeforeSecondCard = dashboardPage.getBalance(1);
+        amount = amount + balanceBeforeSecondCard;
+        transferPage = dashboardPage.transferButton(0); //какую карту пополняем
+        transferPage.transfer(info, amount, 1); // с какой карты пополняем
+
+        int expectedBalanceFirstCard = balanceBeforeFirstCard + balanceBeforeSecondCard;
+        int expectedBalanceSecondCard = 0;
+
+        int actualBalanceFirstCard = dashboardPage.getBalance(0);
+        int actualBalanceSecondCard = dashboardPage.getBalance(1);
+        assertEquals(expectedBalanceFirstCard, actualBalanceFirstCard);
+        assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard);
+
+//        dashboardPage.assertBalance(1, balanceBeforeSecondCard + amount);
+//        dashboardPage.assertBalance(0, balanceBeforeFirstCard - amount);
     }
 }

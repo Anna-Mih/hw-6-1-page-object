@@ -30,9 +30,9 @@ public class DashboardPage {
 
     }
 
-    public void assertBalance(int index, int expected) {
-        int actual = getBalance(index);
-        assertEquals(expected, actual);
-    }
+//    public void assertBalance(int index, int expected) {
+//        int actual = getBalance(index);
+//        assertEquals(expected, actual);
+//    }
 }
 
