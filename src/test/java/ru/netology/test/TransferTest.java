@@ -8,6 +8,7 @@ import ru.netology.page.DashboardPage;
 import ru.netology.page.LoginPage;
 import ru.netology.page.TransferPage;
 import ru.netology.page.VerificationPage;
+
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.open;
@@ -20,7 +21,7 @@ public class TransferTest {
     int amount = 100;
 
     @BeforeEach
-    public void authorize(){
+    public void authorize() {
 
         open("http://localhost:9999/");
 
@@ -30,13 +31,11 @@ public class TransferTest {
         info = new DataHelper();
         loginPage.login(info);
         verificationPage.validVerify(info);
-        // VerificationPage verificationPage = loginPage.login(info);
-        //dashboardPage = verificationPage.validVerify(info);
     }
 
 
     @Test
-    public void shouldTransferToFirstCard(){
+    public void shouldTransferToFirstCard() {
         DashboardPage dashboardPage = new DashboardPage();
         VerificationPage verificationPage = new VerificationPage();
         int balanceBeforeFirstCard = dashboardPage.getBalance(0);
@@ -53,10 +52,10 @@ public class TransferTest {
         int actualBalanceSecondCard = dashboardPage.getBalance(1);
         assertEquals(expectedBalanceFirstCard, actualBalanceFirstCard);
         assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard);
-
     }
+
     @Test
-    public void shouldTransferToSecondCard(){
+    public void shouldTransferToSecondCard() {
         DashboardPage dashboardPage = new DashboardPage();
         VerificationPage verificationPage = new VerificationPage();
         TransferPage transferPage = new TransferPage();
@@ -72,13 +71,10 @@ public class TransferTest {
         int actualBalanceSecondCard = dashboardPage.getBalance(1);
         assertEquals(expectedBalanceFirstCard, actualBalanceFirstCard);
         assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard);
-
-//        dashboardPage.assertBalance(1, balanceBeforeSecondCard + amount);
-//        dashboardPage.assertBalance(0, balanceBeforeFirstCard - amount);
     }
 
     @Test
-    public void shouldTransferToFirstCardIfAmountMoreThanBalance(){
+    public void shouldTransferToFirstCardIfAmountMoreThanBalance() {
         DashboardPage dashboardPage = new DashboardPage();
         VerificationPage verificationPage = new VerificationPage();
         TransferPage transferPage = new TransferPage();
@@ -95,8 +91,5 @@ public class TransferTest {
         int actualBalanceSecondCard = dashboardPage.getBalance(1);
         assertEquals(expectedBalanceFirstCard, actualBalanceFirstCard);
         assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard);
-
-//        dashboardPage.assertBalance(1, balanceBeforeSecondCard + amount);
-//        dashboardPage.assertBalance(0, balanceBeforeFirstCard - amount);
     }
 }

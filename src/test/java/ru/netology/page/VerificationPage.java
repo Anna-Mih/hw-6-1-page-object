@@ -11,10 +11,6 @@ public class VerificationPage {
     private SelenideElement codeField = $x("//span[@data-test-id=\"code\"]//input");
     private SelenideElement verifyButton = $x("//button[@data-test-id=\"action-verify\"]");
 
-//    public VerificationPage() {
-//        codeField.shouldBe(visible);
-//    }
-
     public DashboardPage validVerify(DataHelper VerificationCode) {
         codeField.setValue(VerificationCode.getVerificationCode().getCode());
         verifyButton.click();
