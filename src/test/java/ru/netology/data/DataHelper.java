@@ -1,15 +1,11 @@
 package ru.netology.data;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
-@Data
-@RequiredArgsConstructor
 public class DataHelper {
-    private String[] cards = new String[]{"5559 0000 0000 0001", "5559 0000 0000 0002"};
 
-    public String getCardByIndex(int index) {
+    public static String getCardByIndex(int index) {
+        String[] cards = new String[]{"5559 0000 0000 0001", "5559 0000 0000 0002"};
         String card = cards[index];
         return card;
     }

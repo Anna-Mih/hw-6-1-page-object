@@ -28,7 +28,7 @@ public class TransferTest {
         VerificationPage verificationPage = new VerificationPage();
 
         LoginPage loginPage = new LoginPage();
-        info = new DataHelper();
+        //info = new DataHelper();
         loginPage.login(info);
         verificationPage.validVerify(info);
     }
@@ -43,7 +43,7 @@ public class TransferTest {
         TransferPage transferPage = new TransferPage();
         transferPage = dashboardPage.transferButton(0);//какую карту пополняем
 
-        transferPage.transfer(info, amount, 1);//с какой карты переводим
+        transferPage.transfer(amount, 1);//с какой карты переводим
 
         int expectedBalanceFirstCard = balanceBeforeFirstCard + amount;
         int expectedBalanceSecondCard = balanceBeforeSecondCard - amount;
@@ -62,7 +62,7 @@ public class TransferTest {
         int balanceBeforeFirstCard = dashboardPage.getBalance(0);
         int balanceBeforeSecondCard = dashboardPage.getBalance(1);
         transferPage = dashboardPage.transferButton(1); //какую карту пополняем
-        transferPage.transfer(info, amount, 0); // с какой карты пополняем
+        transferPage.transfer(amount, 0); // с какой карты пополняем
 
         int expectedBalanceFirstCard = balanceBeforeFirstCard - amount;
         int expectedBalanceSecondCard = balanceBeforeSecondCard + amount;
@@ -82,14 +82,11 @@ public class TransferTest {
         int balanceBeforeSecondCard = dashboardPage.getBalance(1);
         amount = amount + balanceBeforeSecondCard;
         transferPage = dashboardPage.transferButton(0); //какую карту пополняем
-        transferPage.transfer(info, amount, 1); // с какой карты пополняем
-
-        int expectedBalanceFirstCard = balanceBeforeFirstCard + balanceBeforeSecondCard;
-        int expectedBalanceSecondCard = 0;
+        transferPage.transfer(amount, 1); // с какой карты пополняем
 
         int actualBalanceFirstCard = dashboardPage.getBalance(0);
         int actualBalanceSecondCard = dashboardPage.getBalance(1);
-        assertEquals(expectedBalanceFirstCard, actualBalanceFirstCard);
-        assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard);
+        assertEquals(balanceBeforeFirstCard, actualBalanceFirstCard);
+        assertEquals(balanceBeforeSecondCard, actualBalanceSecondCard);
     }
 }
