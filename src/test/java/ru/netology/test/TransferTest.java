@@ -22,14 +22,9 @@ public class TransferTest {
 
     @BeforeEach
     public void authorize() {
-
         open("http://localhost:9999/");
-
         VerificationPage verificationPage = new VerificationPage();
-
         LoginPage loginPage = new LoginPage();
-        //info = new DataHelper();
-        loginPage.login(info);
         verificationPage.validVerify(info);
     }
 
