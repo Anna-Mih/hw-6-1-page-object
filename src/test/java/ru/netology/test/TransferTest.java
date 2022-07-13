@@ -52,7 +52,7 @@ public class TransferTest {
     @Test
     public void shouldTransferToSecondCard() {
         DashboardPage dashboardPage = new DashboardPage();
-        VerificationPage verificationPage = new VerificationPage();
+        //VerificationPage verificationPage = new VerificationPage();
         TransferPage transferPage = new TransferPage();
         int balanceBeforeFirstCard = dashboardPage.getBalance(0);
         int balanceBeforeSecondCard = dashboardPage.getBalance(1);
